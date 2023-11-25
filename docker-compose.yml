@@ -1,0 +1,28 @@
+version: "3"
+services:
+  bis2bisapp:
+    depends_on:
+      - bis2bisdb
+    build: .
+    container_name: "bis2bisapp"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/usr/share/nginx
+    networks:
+      - app-network
+  bis2bisdb:
+    container_name: bis2bisdb
+    image: mysql:5.7.22
+    ports:
+      - "3306:3306"
+    volumes:
+      - .docker/dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: bis2bisdb
+      MYSQL_ROOT_PASSWORD: admin
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
