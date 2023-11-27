@@ -16,6 +16,9 @@ $router->get('/post/{id}/delete', 'PostController@delete');
 $router->get('/perfil/{id}', 'ProfileController@index');
 $router->get('/perfil', 'ProfileController@index');
 
+$router->get('/config', 'ConfigController@index');
+$router->post('/config', 'ConfigController@save');
+
 $router->get('/sair', 'LoginController@logout');
 
 $router->get('/ajax/like/{id}', 'AjaxController@like');
