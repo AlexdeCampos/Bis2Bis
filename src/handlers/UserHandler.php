@@ -43,4 +43,26 @@ class UserHandler {
 
         return false;
     }
+
+    public static function emailExists($email) {
+        $user = User::select()->where('email', $email)->one();
+        return $user ? true : false;
+    }
+
+
+    public static function addUser($name, $email, $password, $type = 'viewer') {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $token = md5(time().rand(0,9999).time());
+
+        User::insert([
+            'email' => $email,
+            'password' => $hash,
+            'name' => $name,
+            'token' => $token,
+            'type' => $type,
+        ])->execute();
+
+        return $token;
+    }
+
 }
