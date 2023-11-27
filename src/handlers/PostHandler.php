@@ -83,6 +83,29 @@ class PostHandler {
         ])->execute();
     }
 
+    public static function getUserFeed($idUser, $page, $loggedUserId) {
+        $perPage = 2;
+
+        $postList = Post::select()
+            ->where('user_id', $idUser)
+            ->orderBy('created_at', 'desc')
+            ->page($page, $perPage)
+        ->get();
+
+        $total = Post::select()
+            ->where('user_id', $idUser)
+        ->count();
+        $pageCount = ceil($total / $perPage);
+
+        $posts = self::_postListToObject($postList, $loggedUserId);
+
+        return [
+            'posts' => $posts,
+            'pageCount' => $pageCount,
+            'currentPage' => $page
+        ];
+    }
+
     public static function getHomeFeed($idUser, $page) {
         $perPage = 5;
 
