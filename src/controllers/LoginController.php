@@ -71,4 +71,51 @@ class LoginController extends Controller {
         $this->redirect('/login');
     }
 
+    public function newAdmin(){
+        $loggedUser = UserHandler::checkLogin();
+        if($loggedUser === false) {
+            $this->redirect('/home');
+        }
+
+        $flash = '';
+        if(!empty($_SESSION['flash'])) {
+            $flash = $_SESSION['flash'];
+            $_SESSION['flash'] = '';
+        }
+
+        if($loggedUser === false) {
+            $this->redirect('/home');
+        }
+        $page = intval(filter_input(INPUT_GET, 'page'));
+
+        $users = UserHandler::listAdmin($page, $loggedUser);
+        $this->render('signupAdmin', [
+            'flash' => $flash,
+            'loggedUser' => $loggedUser,
+            'userList' => $users
+        ]);
+    }
+
+    public function newAdminAction(){
+        $loggedUser = UserHandler::checkLogin();
+        if($loggedUser === false) {
+            $this->redirect('/login');
+        }
+
+        $name = filter_input(INPUT_POST, 'name');
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password');
+
+        if($name && $email && $password) {
+            if(UserHandler::emailExists($email) === false) {
+                UserHandler::addUser($name, $email, $password, 'admin');
+            } else {
+                $_SESSION['flash'] = 'E-mail já cadastrado!';
+            }
+        } else {
+            
+        }
+        $this->redirect('/cadastro/admin');
+    }
+
 }

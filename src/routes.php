@@ -8,6 +8,8 @@ $router->get('/', 'HomeController@index');
 $router->get('/login', 'LoginController@signin');
 $router->post('/login', 'LoginController@signinAction');
 
+$router->get('/cadastro/admin', 'LoginController@newAdmin');
+$router->post('/cadastro/admin', 'LoginController@newAdminAction');
 $router->get('/cadastro', 'LoginController@signup');
 $router->post('/cadastro', 'LoginController@signupAction');
 
