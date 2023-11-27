@@ -2,7 +2,7 @@ CREATE DATABASE `bis2bisdb`;
 
 USE `bis2bisdb`;
 
-CREATE TABLE IF NOT EXISTS `post_likes` (
+CREATE TABLE IF NOT EXISTS `postlikes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
