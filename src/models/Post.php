@@ -11,4 +11,7 @@ class Post extends Model {
     public $created_at;
     public $deleted_at;
     public $likes_count;
+    public $liked;
+    public $mine;
+    public User $user;
 }
