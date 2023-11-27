@@ -2,6 +2,8 @@
 namespace src\handlers;
 
 use \src\models\Post;
+use \src\models\PostLike;
+use \src\models\User;
 
 class PostHandler {
 
@@ -66,6 +68,21 @@ class PostHandler {
             return false;
         }
     }
+
+    public static function deleteLike($id, $loggedUserId) {
+        PostLike::delete()
+            ->where('post_id', $id)
+            ->where('user_id', $loggedUserId)
+        ->execute();
+    }
+
+    public static function addLike($id, $loggedUserId) {
+        PostLike::insert([
+            'post_id' => $id,
+            'user_id' => $loggedUserId,
+        ])->execute();
+    }
+
     public static function getHomeFeed($idUser, $page) {
         $perPage = 5;
 
@@ -85,4 +102,27 @@ class PostHandler {
             'currentPage' => $page
         ];
     }
+
+    public static function delete($id, $loggedUserId) {
+        $post = Post::select()
+            ->where('id', $id)
+            ->where('user_id', $loggedUserId)
+            ->get();
+
+        if(count($post) > 0) {
+            $post = $post[0];
+
+            PostLike::delete()->where('post_id', $id)->execute();
+
+            if($post['image'] !== '') {
+                $img = __DIR__.'/../../public/media/uploads/'.$post['image'];
+                if(file_exists($img)) {
+                    unlink($img);
+                }
+            }
+
+            Post::delete()->where('id', $id)->execute();
+        }
+    }
+
 }

@@ -11,6 +11,8 @@ $router->post('/login', 'LoginController@signinAction');
 $router->get('/cadastro', 'LoginController@signup');
 $router->post('/cadastro', 'LoginController@signupAction');
 
+$router->get('/post/{id}/delete', 'PostController@delete');
+
 
 $router->get('/sair', 'LoginController@logout');
 
