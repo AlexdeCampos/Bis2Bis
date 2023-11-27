@@ -10,4 +10,6 @@ class Config {
     CONST DB_USER = 'root';
     const DB_PASS = 'admin';
 
+    const ERROR_CONTROLLER = 'ErrorController';
+    const DEFAULT_ACTION = 'index';
 }
