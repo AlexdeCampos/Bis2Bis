@@ -1,0 +1,64 @@
+CREATE DATABASE `bis2bisdb`;
+
+USE `bis2bisdb`;
+
+CREATE TABLE IF NOT EXISTS `post_likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `post_likes_FK` (`user_id`),
+  KEY `post_likes_FK_1` (`post_id`),
+  CONSTRAINT `post_likes_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `post_likes_FK_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+-- ------------------------------------------------ 
+CREATE TABLE IF NOT EXISTS `posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `image` varchar(200) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `likes_count` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `posts_FK` (`user_id`),
+  CONSTRAINT `posts_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+-- ------------------------------------------------ 
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `avatar` varchar(200) DEFAULT 'default.jpg',
+  `token` varchar(200) DEFAULT NULL,
+  `type` varchar(100) NOT NULL DEFAULT 'viewer',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8;
+
+INSERT INTO
+  `users` (
+    `id`,
+    `name`,
+    `email`,
+    `password`,
+    `avatar`,
+    `token`,
+    `type`
+  )
+VALUES
+  (
+    1,
+    'Admin',
+    'admin@email.com',
+    '$2y$10$kCBz38t7ov3D3qb2BECwUeFF7D2hRMLxH.Qb01HnznK9RPASA734S',
+    'default.jpg',
+    '43975fdf21e6679328895ef3d1a7281d',
+    'admin'
+  );
+
+-- ------------------------------------------------

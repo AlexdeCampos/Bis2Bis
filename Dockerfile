@@ -1,7 +1,8 @@
 FROM wyveo/nginx-php-fpm:php81
 
-COPY . /usr/share/nginx/html
+COPY --chown=www-data:www-data . /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN chmod -R 765 /var/www/html/
 
 WORKDIR /usr/share/nginx/html
 
