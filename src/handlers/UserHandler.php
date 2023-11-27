@@ -54,7 +54,7 @@ class UserHandler {
         return $user ? true : false;
     }
 
-    public static function getUser($id, $full = false) {
+    public static function getUser($id) {
         $data = User::select()->where('id', $id)->one();
 
         if($data) {
@@ -86,7 +86,7 @@ class UserHandler {
         return $token;
     }
 
-    public static function updateUser($fields, $idUser) {
+    public static function updateUser(array $fields, string $idUser) {
         if(count($fields) > 0) {
 
             $update = User::update();
@@ -101,6 +101,44 @@ class UserHandler {
 
             $update->where('id', $idUser)->execute();
         }
+    }
+
+    public static function _userListToObject($userList) {
+        $users = [];
+        foreach($userList as $user) {
+            $newUser = new User();
+            $newUser->id = $user['id'];
+            $newUser->name = $user['name'];
+            $newUser->email = $user['email'];
+            $newUser->avatar = $user['avatar'];
+
+            $users[] = $newUser;
+        }
+        
+        return $users;
+    }
+
+    public static function listAdmin(int $page, User $loggedUser){
+        $perPage = 5;
+
+        $userList = User::select()
+            ->where('id', '!=',$loggedUser->id)
+            ->andWhere('type', 'admin')
+            ->page($page, $perPage)
+            ->get();
+
+        $total = User::select()
+            ->where('id', '!=' ,$loggedUser->id)
+            ->andWhere('type', 'admin')
+            ->count();
+        $pageCount = ceil($total / $perPage);
+
+        $users = self::_userListToObject($userList);
+        return [
+            'users' => $users,
+            'pageCount' => $pageCount,
+            'currentPage' => $page
+        ];
     }
 
 }
