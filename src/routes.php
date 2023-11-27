@@ -25,3 +25,6 @@ $router->get('/sair', 'LoginController@logout');
 
 $router->get('/ajax/like/{id}', 'AjaxController@like');
 $router->post('/ajax/newPost', 'AjaxController@newPost');
+$router->post('/ajax/generateBkp', 'AjaxController@generateBkp');
+
+$router->get('/base', 'DatabaseController@index');

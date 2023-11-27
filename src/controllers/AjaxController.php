@@ -2,6 +2,7 @@
 namespace src\controllers;
 
 use \core\Controller;
+use src\handlers\DbHandler;
 use \src\handlers\UserHandler;
 use \src\handlers\PostHandler;
 
@@ -89,6 +90,14 @@ class AjaxController extends Controller {
 
         header("Content-Type: application/json");
         echo json_encode($array);
+        exit;
+    }
+
+    public function generateBkp(){
+        $bkp = DbHandler::renegateBkp($this->loggedUser);
+
+        header("Content-Type: application/json");
+        echo json_encode(['file' => $bkp]);
         exit;
     }
 
