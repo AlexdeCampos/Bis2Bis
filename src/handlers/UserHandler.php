@@ -16,6 +16,7 @@ class UserHandler {
                 $loggedUser->id = $data['id'];
                 $loggedUser->name = $data['name'];
                 $loggedUser->avatar = $data['avatar'];
+                $loggedUser->type = $data['type'];
 
                 return $loggedUser;
             }

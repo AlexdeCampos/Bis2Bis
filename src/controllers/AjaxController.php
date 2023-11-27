@@ -18,6 +18,16 @@ class AjaxController extends Controller {
         }
     }
 
+    public function like($atts) {
+        $id = $atts['id'];
+       
+        if(PostHandler::isLiked($id, $this->loggedUser->id)) {
+            PostHandler::deleteLike($id, $this->loggedUser->id);
+        } else {
+            PostHandler::addLike($id, $this->loggedUser->id);
+        }
+    }
+
     public function newPost() {
         $array = ['error'=>''];
 
@@ -65,8 +75,6 @@ class AjaxController extends Controller {
                 $photoName = md5(time().rand(0,9999)).'.jpg';
                 imagejpeg($finalImage, 'media/uploads/'.$photoName);
             }
-
-
         }
        
         if($photoName || $content){
